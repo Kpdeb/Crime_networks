@@ -1,0 +1,19 @@
+spacy==3.8.0
+networkx
+scipy
+matplotlib
+pyvis
+python-louvain
+fastapi
+uvicorn
+reportlab
+pypdf
+reportlab
+
+# Advanced graph analytics uses the existing NetworkX dependency.
+
+pandas
+scikit-learn
+
+neo4j>=5.0,<7
+python-multipart>=0.0.9,<1

@@ -1,0 +1,310 @@
+{
+  "nodes": [
+    {
+      "id": "Rajesh Verma",
+      "type": "Person"
+    },
+    {
+      "id": "Suresh Yadav",
+      "type": "Person"
+    },
+    {
+      "id": "Kolkata",
+      "type": "Location"
+    },
+    {
+      "id": "Salt Lake",
+      "type": "Location"
+    },
+    {
+      "id": "WB-06-AB-1234",
+      "type": "Vehicle"
+    },
+    {
+      "id": "Anil Ghosh",
+      "type": "Person"
+    },
+    {
+      "id": "Barasat",
+      "type": "Location"
+    },
+    {
+      "id": "Howrah",
+      "type": "Location"
+    },
+    {
+      "id": "Sealdah",
+      "type": "Location"
+    },
+    {
+      "id": "WB-02-CD-5678",
+      "type": "Vehicle"
+    },
+    {
+      "id": "Bimal Das",
+      "type": "Person"
+    },
+    {
+      "id": "Kavita Sharma",
+      "type": "Person"
+    },
+    {
+      "id": "Manoj Tiwari",
+      "type": "Person"
+    },
+    {
+      "id": "Delhi",
+      "type": "Location"
+    },
+    {
+      "id": "Lajpat Nagar",
+      "type": "Location"
+    },
+    {
+      "id": "DL-08-XY-4321",
+      "type": "Vehicle"
+    },
+    {
+      "id": "Deepak Malhotra",
+      "type": "Person"
+    },
+    {
+      "id": "Paharganj",
+      "type": "Location"
+    },
+    {
+      "id": "DL-11-PQ-9087",
+      "type": "Vehicle"
+    }
+  ],
+  "edges": [
+    {
+      "source": "Rajesh Verma",
+      "target": "Suresh Yadav",
+      "relation": "CONTACTED",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Rajesh Verma",
+      "target": "Suresh Yadav",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Rajesh Verma",
+      "target": "Anil Ghosh",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Rajesh Verma",
+      "target": "Bimal Das",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Suresh Yadav",
+      "target": "Anil Ghosh",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Suresh Yadav",
+      "target": "Anil Ghosh",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Suresh Yadav",
+      "target": "Bimal Das",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Suresh Yadav",
+      "target": "Rajesh Verma",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Suresh Yadav",
+      "relation": "CALLED",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Suresh Yadav",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Rajesh Verma",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Rajesh Verma",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Rajesh Verma",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Rajesh Verma",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Rajesh Verma",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Rajesh Verma",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Bimal Das",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Anil Ghosh",
+      "target": "Bimal Das",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Suresh Yadav",
+      "relation": "MET_WITH",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Suresh Yadav",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Manoj Tiwari",
+      "relation": "MET_WITH",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Manoj Tiwari",
+      "relation": "CALLED",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Manoj Tiwari",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Manoj Tiwari",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Manoj Tiwari",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Deepak Malhotra",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Bimal Das",
+      "target": "Rajesh Verma",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Manoj Tiwari",
+      "target": "Deepak Malhotra",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Manoj Tiwari",
+      "target": "Deepak Malhotra",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Manoj Tiwari",
+      "target": "Deepak Malhotra",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Manoj Tiwari",
+      "target": "Bimal Das",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Deepak Malhotra",
+      "target": "Manoj Tiwari",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Deepak Malhotra",
+      "target": "Manoj Tiwari",
+      "relation": "CONTACTED",
+      "source_type": "FIR"
+    },
+    {
+      "source": "Deepak Malhotra",
+      "target": "Manoj Tiwari",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Deepak Malhotra",
+      "target": "Manoj Tiwari",
+      "relation": "CALLED",
+      "source_type": "CDR"
+    },
+    {
+      "source": "Deepak Malhotra",
+      "target": "Manoj Tiwari",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Deepak Malhotra",
+      "target": "Manoj Tiwari",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    },
+    {
+      "source": "Deepak Malhotra",
+      "target": "Manoj Tiwari",
+      "relation": "TRANSFERRED_MONEY",
+      "source_type": "Transaction"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "investigator": {
+    "password_hash": "8260ea6048b04bd5670e8741fa00cf509e95b6f9b21300ddfacf7e602861b8bb",
+    "salt": "2d07a6360a778e26929263f59605d764",
+    "role": "investigator",
+    "full_name": "Investigating Officer"
+  },
+  "admin": {
+    "password_hash": "85afe30f864607e6af750770c0269f156227b2c3eb34711061c11aabcba19705",
+    "salt": "dc15512d13cb159e8b02f5c38ecd62d8",
+    "role": "admin",
+    "full_name": "System Administrator"
+  }
+}

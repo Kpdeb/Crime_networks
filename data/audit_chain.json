@@ -1,0 +1,404 @@
+[
+  {
+    "index": 0,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Rajesh Verma",
+        "Suresh Yadav"
+      ],
+      "source_snippet": "FIR-001: On 12/03/2026, a complaint was filed by Ramesh Kumar stating that his v..."
+    },
+    "previous_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+    "block_hash": "baa341f003204775984dd80d1a45939d7adfe6532b5ac37908b8f2fe856231dc"
+  },
+  {
+    "index": 1,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Anil Ghosh",
+        "Suresh Yadav"
+      ],
+      "source_snippet": "FIR-002: On 15/03/2026, surveillance teams tracked a vehicle WB-02-CD-5678 regis..."
+    },
+    "previous_hash": "baa341f003204775984dd80d1a45939d7adfe6532b5ac37908b8f2fe856231dc",
+    "block_hash": "32f0ba5104b7da99257b729ab4321b9d1973d9e2053f66e32b1e4443e76b0a37"
+  },
+  {
+    "index": 2,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Anil Ghosh",
+        "Rajesh Verma"
+      ],
+      "source_snippet": "FIR-003: Financial intelligence unit flagged a transaction of Rs. 480,000 from A..."
+    },
+    "previous_hash": "32f0ba5104b7da99257b729ab4321b9d1973d9e2053f66e32b1e4443e76b0a37",
+    "block_hash": "1112a2d73503f434f49aeb1424743162117bc9c1283cb6862ec7beed3e949d0f"
+  },
+  {
+    "index": 3,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Bimal Das",
+        "Rajesh Verma",
+        "Suresh Yadav"
+      ],
+      "source_snippet": "FIR-004: Social media intelligence identified a Facebook profile under the name ..."
+    },
+    "previous_hash": "1112a2d73503f434f49aeb1424743162117bc9c1283cb6862ec7beed3e949d0f",
+    "block_hash": "8e93d76c1b199b35e5666e2c9c0c5e91336ac4e206d18690b23a2198efeead4b"
+  },
+  {
+    "index": 4,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Anil Ghosh"
+      ],
+      "source_snippet": "FIR-005: On 22/03/2026, police intercepted communication between phone number 91..."
+    },
+    "previous_hash": "8e93d76c1b199b35e5666e2c9c0c5e91336ac4e206d18690b23a2198efeead4b",
+    "block_hash": "a4c550ce7a24c4c7e4fe1aca0ad527876ceebd1653b56908146780e69d8f6261"
+  },
+  {
+    "index": 5,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Kavita Sharma",
+        "Lajpat Nagar",
+        "Manoj Tiwari"
+      ],
+      "source_snippet": "FIR-006: On 25/03/2026, a separate complaint was registered in Delhi by Kavita S..."
+    },
+    "previous_hash": "a4c550ce7a24c4c7e4fe1aca0ad527876ceebd1653b56908146780e69d8f6261",
+    "block_hash": "4b0fdc5cdfcad96464864740cc41703f1adeb9d4a12ff92b8b65578d813800e2"
+  },
+  {
+    "index": 6,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Deepak Malhotra"
+      ],
+      "source_snippet": "FIR-007: On 27/03/2026, surveillance flagged frequent contact between phone numb..."
+    },
+    "previous_hash": "4b0fdc5cdfcad96464864740cc41703f1adeb9d4a12ff92b8b65578d813800e2",
+    "block_hash": "ea524ea3b61bacc448a994a3402e61d3adf275a037f7578137aff2cd7cfc782b"
+  },
+  {
+    "index": 7,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Manoj Tiwari"
+      ],
+      "source_snippet": "FIR-008: On 29/03/2026, financial records showed a transfer of Rs. 350,000 from ..."
+    },
+    "previous_hash": "ea524ea3b61bacc448a994a3402e61d3adf275a037f7578137aff2cd7cfc782b",
+    "block_hash": "58dccab3672e0d5555440014b9ef0e8dd7994074befcd7fd423e63a6d5ded558"
+  },
+  {
+    "index": 8,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Bimal Das",
+        "Manoj Tiwari"
+      ],
+      "source_snippet": "FIR-009: On 02/04/2026, intelligence sources reported that Bimal Das, previously..."
+    },
+    "previous_hash": "58dccab3672e0d5555440014b9ef0e8dd7994074befcd7fd423e63a6d5ded558",
+    "block_hash": "5632bb1af23fe244ddd6c0816c7d17d9d34a5843f85fb3e42ec7ee4a47d4ed39"
+  },
+  {
+    "index": 9,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Bimal Das",
+        "Deepak Malhotra",
+        "Manoj Tiwari"
+      ],
+      "source_snippet": "FIR-010: On 04/04/2026, a transaction of Rs. 200,000 was recorded from Bimal Das..."
+    },
+    "previous_hash": "5632bb1af23fe244ddd6c0816c7d17d9d34a5843f85fb3e42ec7ee4a47d4ed39",
+    "block_hash": "4386fae121dacb497a9415ce4fd80df18ff69a380d415b3df77f85689b3de6f4"
+  },
+  {
+    "index": 10,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ENTITY_EXTRACTED",
+    "details": {
+      "persons": [
+        "Deepak Malhotra",
+        "Manoj Tiwari",
+        "Rajesh Verma"
+      ],
+      "source_snippet": "FIR-012: On 08/04/2026, social media intelligence identified posts from an accou..."
+    },
+    "previous_hash": "4386fae121dacb497a9415ce4fd80df18ff69a380d415b3df77f85689b3de6f4",
+    "block_hash": "3016e0ad99b423aaa604a4c8700ca31c3a4e2700fa277111722bd1e069414851"
+  },
+  {
+    "index": 11,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "KEY_INFLUENCER_IDENTIFIED",
+    "details": {
+      "name": "Manoj Tiwari",
+      "degree_centrality": 0.278,
+      "betweenness_centrality": 0.046,
+      "pagerank": 0.192
+    },
+    "previous_hash": "3016e0ad99b423aaa604a4c8700ca31c3a4e2700fa277111722bd1e069414851",
+    "block_hash": "36ff381740b9fe24f692b37b28d1607806d5905a47f37cdd6e64c691078f7c2b"
+  },
+  {
+    "index": 12,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "KEY_INFLUENCER_IDENTIFIED",
+    "details": {
+      "name": "Bimal Das",
+      "degree_centrality": 0.444,
+      "betweenness_centrality": 0.059,
+      "pagerank": 0.177
+    },
+    "previous_hash": "36ff381740b9fe24f692b37b28d1607806d5905a47f37cdd6e64c691078f7c2b",
+    "block_hash": "a23b875ce246eadc0075ab1cc67d2823c5919557fddfa0310ce756bd88dff307"
+  },
+  {
+    "index": 13,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "KEY_INFLUENCER_IDENTIFIED",
+    "details": {
+      "name": "Deepak Malhotra",
+      "degree_centrality": 0.167,
+      "betweenness_centrality": 0.0,
+      "pagerank": 0.135
+    },
+    "previous_hash": "a23b875ce246eadc0075ab1cc67d2823c5919557fddfa0310ce756bd88dff307",
+    "block_hash": "d335d979d23766feb0d92a84a3e40abfe103145a65247e72a8491e4787ed670d"
+  },
+  {
+    "index": 14,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "KEY_INFLUENCER_IDENTIFIED",
+    "details": {
+      "name": "Rajesh Verma",
+      "degree_centrality": 0.333,
+      "betweenness_centrality": 0.008,
+      "pagerank": 0.103
+    },
+    "previous_hash": "d335d979d23766feb0d92a84a3e40abfe103145a65247e72a8491e4787ed670d",
+    "block_hash": "b9125a0dd3da322793fdd0c1362544065c6a893eea56761d363b3603ac528f87"
+  },
+  {
+    "index": 15,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "KEY_INFLUENCER_IDENTIFIED",
+    "details": {
+      "name": "Suresh Yadav",
+      "degree_centrality": 0.333,
+      "betweenness_centrality": 0.008,
+      "pagerank": 0.103
+    },
+    "previous_hash": "b9125a0dd3da322793fdd0c1362544065c6a893eea56761d363b3603ac528f87",
+    "block_hash": "ad9ff0e3de15320759b9b51420325376a71af3699c6486fdb6a1aa90af5d2b81"
+  },
+  {
+    "index": 16,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ALERT_RAISED",
+    "details": {
+      "sender": "Anil Ghosh",
+      "receiver": "Rajesh Verma",
+      "amount": 120000,
+      "repeat_count": 4,
+      "flag": "Possible structuring / smurfing pattern"
+    },
+    "previous_hash": "ad9ff0e3de15320759b9b51420325376a71af3699c6486fdb6a1aa90af5d2b81",
+    "block_hash": "1737f0e04a5d9e6bf7aafe3f0169d63d2a9a9e3f7b7af1f4ebe7624bb20de814"
+  },
+  {
+    "index": 17,
+    "timestamp": "2026-08-30 20:05:07",
+    "event_type": "ALERT_RAISED",
+    "details": {
+      "sender": "Deepak Malhotra",
+      "receiver": "Manoj Tiwari",
+      "amount": 116667,
+      "repeat_count": 3,
+      "flag": "Possible structuring / smurfing pattern"
+    },
+    "previous_hash": "1737f0e04a5d9e6bf7aafe3f0169d63d2a9a9e3f7b7af1f4ebe7624bb20de814",
+    "block_hash": "06aa61015423683867d5cda8da2b26fbdfa3afd7585dd19c74cfde758ce23b7c"
+  },
+  {
+    "index": 18,
+    "timestamp": "2026-08-31 05:57:23",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "06aa61015423683867d5cda8da2b26fbdfa3afd7585dd19c74cfde758ce23b7c",
+    "block_hash": "a2be2afd4e064050aaf63de755231c77b82904a85777f3c39ec1319b9582957a"
+  },
+  {
+    "index": 19,
+    "timestamp": "2026-08-31 05:57:33",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "a2be2afd4e064050aaf63de755231c77b82904a85777f3c39ec1319b9582957a",
+    "block_hash": "8b556eaf0ed45b763f17ba479d495102fc1d65cd1ea563077bc685edaddc1e73"
+  },
+  {
+    "index": 20,
+    "timestamp": "2026-08-31 06:06:11",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "8b556eaf0ed45b763f17ba479d495102fc1d65cd1ea563077bc685edaddc1e73",
+    "block_hash": "82065a22ab5fe5a9ea09679993585de090847c28c6186d0de65a9af296644409"
+  },
+  {
+    "index": 21,
+    "timestamp": "2026-08-31 06:06:11",
+    "event_type": "REPORT_GENERATED",
+    "details": {
+      "entity": "Bimal Das",
+      "generated_by": "investigator"
+    },
+    "previous_hash": "82065a22ab5fe5a9ea09679993585de090847c28c6186d0de65a9af296644409",
+    "block_hash": "a133c469ad15e4f5cc8fc3e107d84096e0d812eb39ab9af323292a2d4fddc0c7"
+  },
+  {
+    "index": 22,
+    "timestamp": "2026-08-31 18:50:46",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "a133c469ad15e4f5cc8fc3e107d84096e0d812eb39ab9af323292a2d4fddc0c7",
+    "block_hash": "cee55dd1507f2e1c21cc2036eacd050880f564c31ca22640562e817a57922f93"
+  },
+  {
+    "index": 23,
+    "timestamp": "2026-08-31 18:50:58",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "cee55dd1507f2e1c21cc2036eacd050880f564c31ca22640562e817a57922f93",
+    "block_hash": "aaf36cd5c8bc8eba3493e99562830368931d2db25b6110c23dcb4363b81cc2c3"
+  },
+  {
+    "index": 24,
+    "timestamp": "2026-08-31 18:51:22",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "aaf36cd5c8bc8eba3493e99562830368931d2db25b6110c23dcb4363b81cc2c3",
+    "block_hash": "0354e6c12db091a30dbb85d5efe329604ddbc88bfd7fd0e30ab8f33c0c6e9eb0"
+  },
+  {
+    "index": 25,
+    "timestamp": "2026-09-02 20:06:07",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "0354e6c12db091a30dbb85d5efe329604ddbc88bfd7fd0e30ab8f33c0c6e9eb0",
+    "block_hash": "d9732de9b41155a944ef8d37b10cb4064a8e482e9e2b343297e8d8ede1f57b0d"
+  },
+  {
+    "index": 26,
+    "timestamp": "2026-09-03 01:48:56",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "d9732de9b41155a944ef8d37b10cb4064a8e482e9e2b343297e8d8ede1f57b0d",
+    "block_hash": "5dae548f879d8fe239db2ef8faa47c3008ab05bef3ae5fefcecacfbfb3f9083c"
+  },
+  {
+    "index": 27,
+    "timestamp": "2026-09-04 13:42:01",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "5dae548f879d8fe239db2ef8faa47c3008ab05bef3ae5fefcecacfbfb3f9083c",
+    "block_hash": "b984c4492ca463efd0026716f0d810f74a9e2ce78ebd2361c3b91cfc257b0613"
+  },
+  {
+    "index": 28,
+    "timestamp": "2026-09-04 13:57:59",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "b984c4492ca463efd0026716f0d810f74a9e2ce78ebd2361c3b91cfc257b0613",
+    "block_hash": "b371215488b30f9470c7cafacd0c64bf43b22cbeb210cd37a1e020a29a8d686d"
+  },
+  {
+    "index": 29,
+    "timestamp": "2026-09-04 22:34:55",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "b371215488b30f9470c7cafacd0c64bf43b22cbeb210cd37a1e020a29a8d686d",
+    "block_hash": "9d2c49280bebcb3843cfd33cd8e6fc785a01766f478f325baa896f2e36b38365"
+  },
+  {
+    "index": 30,
+    "timestamp": "2026-09-05 02:49:24",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "9d2c49280bebcb3843cfd33cd8e6fc785a01766f478f325baa896f2e36b38365",
+    "block_hash": "8637f1274c4019919db28f41c3290627e9417d97e1bbc04c7d3a02d7ee44013e"
+  },
+  {
+    "index": 31,
+    "timestamp": "2026-09-05 16:00:15",
+    "event_type": "USER_LOGIN",
+    "details": {
+      "username": "investigator",
+      "role": "investigator"
+    },
+    "previous_hash": "8637f1274c4019919db28f41c3290627e9417d97e1bbc04c7d3a02d7ee44013e",
+    "block_hash": "88a13f928ae18b5d79df4dc7bff94c7bb65c57325796aca54917f28bdf794e6f"
+  }
+]

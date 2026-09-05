@@ -1,0 +1,352 @@
+[
+  {
+    "raw_text": "FIR-001: On 12/03/2026, a complaint was filed by Ramesh Kumar stating that his v...",
+    "entities": {
+      "persons": [
+        "Rajesh Verma",
+        "Suresh Yadav"
+      ],
+      "locations": [
+        "Kolkata",
+        "Salt Lake"
+      ],
+      "organizations": [
+        "Ramesh Kumar"
+      ],
+      "phone_numbers": [
+        "9876543210"
+      ],
+      "vehicle_numbers": [
+        "WB-06-AB-1234"
+      ],
+      "amounts": [],
+      "dates": [
+        "12/03/2026"
+      ]
+    },
+    "relationships": [
+      {
+        "source": "Rajesh Verma",
+        "target": "Suresh Yadav",
+        "type": "CONTACTED",
+        "evidence": "Witnesses reported that Suresh Yadav, a known associate of the accused, was in contact with Rajesh Verma via phone number 9876543210."
+      }
+    ]
+  },
+  {
+    "raw_text": "FIR-002: On 15/03/2026, surveillance teams tracked a vehicle WB-02-CD-5678 regis...",
+    "entities": {
+      "persons": [
+        "Anil Ghosh",
+        "Suresh Yadav"
+      ],
+      "locations": [
+        "Barasat",
+        "Howrah",
+        "Sealdah"
+      ],
+      "organizations": [],
+      "phone_numbers": [
+        "9123456789",
+        "9876543210"
+      ],
+      "vehicle_numbers": [
+        "WB-02-CD-5678"
+      ],
+      "amounts": [],
+      "dates": [
+        "15/03/2026"
+      ]
+    },
+    "relationships": [
+      {
+        "source": "Anil Ghosh",
+        "target": "Suresh Yadav",
+        "type": "CALLED",
+        "evidence": "Call records show frequent contact between phone number 9876543210 (Suresh Yadav) and 9123456789 (Anil Ghosh), an alleged financier operating out of Barasat."
+      }
+    ]
+  },
+  {
+    "raw_text": "FIR-003: Financial intelligence unit flagged a transaction of Rs. 480,000 from A...",
+    "entities": {
+      "persons": [
+        "Anil Ghosh",
+        "Rajesh Verma"
+      ],
+      "locations": [
+        "Kolkata",
+        "Salt Lake"
+      ],
+      "organizations": [],
+      "phone_numbers": [],
+      "vehicle_numbers": [],
+      "amounts": [
+        "Rs. 480,000"
+      ],
+      "dates": [
+        "18/03/2026"
+      ]
+    },
+    "relationships": [
+      {
+        "source": "Anil Ghosh",
+        "target": "Rajesh Verma",
+        "type": "TRANSFERRED_MONEY",
+        "evidence": "FIR-003: Financial intelligence unit flagged a transaction of Rs. 480,000 from Anil Ghosh's account to an account held by Rajesh Verma on 18/03/2026, structured as four separate transfers to avoid reporting thresholds."
+      }
+    ]
+  },
+  {
+    "raw_text": "FIR-004: Social media intelligence identified a Facebook profile under the name ...",
+    "entities": {
+      "persons": [
+        "Bimal Das",
+        "Rajesh Verma",
+        "Suresh Yadav"
+      ],
+      "locations": [
+        "Salt Lake"
+      ],
+      "organizations": [],
+      "phone_numbers": [],
+      "vehicle_numbers": [],
+      "amounts": [],
+      "dates": [
+        "20/03/2026"
+      ]
+    },
+    "relationships": [
+      {
+        "source": "Bimal Das",
+        "target": "Suresh Yadav",
+        "type": "MET_WITH",
+        "evidence": "Posts referenced a meeting at Salt Lake warehouse on 20/03/2026 attended by Suresh Yadav and an unidentified man later confirmed as Bimal Das, a previously convicted individual with a criminal history in extortion cases."
+      }
+    ]
+  },
+  {
+    "raw_text": "FIR-005: On 22/03/2026, police intercepted communication between phone number 91...",
+    "entities": {
+      "persons": [
+        "Anil Ghosh"
+      ],
+      "locations": [
+        "Howrah",
+        "Salt Lake"
+      ],
+      "organizations": [],
+      "phone_numbers": [
+        "9123456789",
+        "9988776655"
+      ],
+      "vehicle_numbers": [
+        "WB-06-AB-1234"
+      ],
+      "amounts": [],
+      "dates": [
+        "22/03/2026"
+      ]
+    },
+    "relationships": []
+  },
+  {
+    "raw_text": "FIR-006: On 25/03/2026, a separate complaint was registered in Delhi by Kavita S...",
+    "entities": {
+      "persons": [
+        "Kavita Sharma",
+        "Manoj Tiwari"
+      ],
+      "locations": [
+        "Delhi",
+        "Lajpat Nagar"
+      ],
+      "organizations": [],
+      "phone_numbers": [],
+      "vehicle_numbers": [
+        "DL-08-XY-4321"
+      ],
+      "amounts": [],
+      "dates": [
+        "25/03/2026"
+      ]
+    },
+    "relationships": []
+  },
+  {
+    "raw_text": "FIR-007: On 27/03/2026, surveillance flagged frequent contact between phone numb...",
+    "entities": {
+      "persons": [
+        "Deepak Malhotra"
+      ],
+      "locations": [
+        "Delhi",
+        "Paharganj"
+      ],
+      "organizations": [],
+      "phone_numbers": [
+        "9765432109",
+        "9871234560"
+      ],
+      "vehicle_numbers": [],
+      "amounts": [],
+      "dates": [
+        "27/03/2026"
+      ]
+    },
+    "relationships": []
+  },
+  {
+    "raw_text": "FIR-008: On 29/03/2026, financial records showed a transfer of Rs. 350,000 from ...",
+    "entities": {
+      "persons": [
+        "Manoj Tiwari"
+      ],
+      "locations": [
+        "Delhi",
+        "Paharganj"
+      ],
+      "organizations": [
+        "Malhotra"
+      ],
+      "phone_numbers": [],
+      "vehicle_numbers": [],
+      "amounts": [
+        "Rs. 350,000"
+      ],
+      "dates": [
+        "29/03/2026"
+      ]
+    },
+    "relationships": []
+  },
+  {
+    "raw_text": "FIR-009: On 02/04/2026, intelligence sources reported that Bimal Das, previously...",
+    "entities": {
+      "persons": [
+        "Bimal Das",
+        "Manoj Tiwari"
+      ],
+      "locations": [
+        "Delhi",
+        "Kolkata",
+        "Paharganj"
+      ],
+      "organizations": [],
+      "phone_numbers": [
+        "9871234560",
+        "9988776655"
+      ],
+      "vehicle_numbers": [],
+      "amounts": [],
+      "dates": [
+        "02/04/2026"
+      ]
+    },
+    "relationships": [
+      {
+        "source": "Bimal Das",
+        "target": "Manoj Tiwari",
+        "type": "MET_WITH",
+        "evidence": "FIR-009: On 02/04/2026, intelligence sources reported that Bimal Das, previously linked to the Salt Lake network in Kolkata, travelled to Delhi and met with Manoj Tiwari at a hotel in Paharganj."
+      },
+      {
+        "source": "Bimal Das",
+        "target": "Manoj Tiwari",
+        "type": "CALLED",
+        "evidence": "Call records confirmed contact between phone number 9988776655 (Bimal Das) and 9871234560 (Manoj Tiwari) on the same day, suggesting a possible link between the two networks."
+      }
+    ]
+  },
+  {
+    "raw_text": "FIR-010: On 04/04/2026, a transaction of Rs. 200,000 was recorded from Bimal Das...",
+    "entities": {
+      "persons": [
+        "Bimal Das",
+        "Deepak Malhotra",
+        "Manoj Tiwari"
+      ],
+      "locations": [
+        "Delhi",
+        "Kolkata"
+      ],
+      "organizations": [],
+      "phone_numbers": [],
+      "vehicle_numbers": [],
+      "amounts": [
+        "Rs. 200,000"
+      ],
+      "dates": [
+        "04/04/2026"
+      ]
+    },
+    "relationships": [
+      {
+        "source": "Bimal Das",
+        "target": "Deepak Malhotra",
+        "type": "TRANSFERRED_MONEY",
+        "evidence": "FIR-010: On 04/04/2026, a transaction of Rs. 200,000 was recorded from Bimal Das's account to Manoj Tiwari's account, routed through an intermediary account held by Deepak Malhotra."
+      },
+      {
+        "source": "Bimal Das",
+        "target": "Manoj Tiwari",
+        "type": "TRANSFERRED_MONEY",
+        "evidence": "FIR-010: On 04/04/2026, a transaction of Rs. 200,000 was recorded from Bimal Das's account to Manoj Tiwari's account, routed through an intermediary account held by Deepak Malhotra."
+      },
+      {
+        "source": "Deepak Malhotra",
+        "target": "Manoj Tiwari",
+        "type": "TRANSFERRED_MONEY",
+        "evidence": "FIR-010: On 04/04/2026, a transaction of Rs. 200,000 was recorded from Bimal Das's account to Manoj Tiwari's account, routed through an intermediary account held by Deepak Malhotra."
+      }
+    ]
+  },
+  {
+    "raw_text": "FIR-011: On 06/04/2026, vehicle DL-08-XY-4321 was seen near Paharganj railway st...",
+    "entities": {
+      "persons": [],
+      "locations": [
+        "Paharganj"
+      ],
+      "organizations": [],
+      "phone_numbers": [],
+      "vehicle_numbers": [
+        "DL-08-XY-4321",
+        "DL-11-PQ-9087"
+      ],
+      "amounts": [],
+      "dates": [
+        "06/04/2026"
+      ]
+    },
+    "relationships": []
+  },
+  {
+    "raw_text": "FIR-012: On 08/04/2026, social media intelligence identified posts from an accou...",
+    "entities": {
+      "persons": [
+        "Deepak Malhotra",
+        "Manoj Tiwari",
+        "Rajesh Verma"
+      ],
+      "locations": [
+        "Kolkata"
+      ],
+      "organizations": [],
+      "phone_numbers": [],
+      "vehicle_numbers": [],
+      "amounts": [],
+      "dates": [
+        "08/04/2026"
+      ]
+    },
+    "relationships": [
+      {
+        "source": "Deepak Malhotra",
+        "target": "Manoj Tiwari",
+        "type": "CONTACTED",
+        "evidence": "FIR-012: On 08/04/2026, social media intelligence identified posts from an account linked to Manoj Tiwari advertising \"guaranteed overseas jobs,\" directing interested applicants to contact Deepak Malhotra directly."
+      }
+    ]
+  }
+]

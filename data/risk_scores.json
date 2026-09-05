@@ -1,0 +1,100 @@
+[
+  {
+    "name": "Bimal Das",
+    "risk_score": 66,
+    "risk_level": "High",
+    "breakdown": {
+      "centrality": 35.0,
+      "alerts": 0.0,
+      "cross_network_bridge": 20,
+      "fir_mentions": 11.2
+    },
+    "alert_count": 0,
+    "fir_count": 3,
+    "bridges_networks": true
+  },
+  {
+    "name": "Rajesh Verma",
+    "risk_score": 63,
+    "risk_level": "High",
+    "breakdown": {
+      "centrality": 13.3,
+      "alerts": 15.0,
+      "cross_network_bridge": 20,
+      "fir_mentions": 15.0
+    },
+    "alert_count": 1,
+    "fir_count": 4,
+    "bridges_networks": true
+  },
+  {
+    "name": "Anil Ghosh",
+    "risk_score": 54,
+    "risk_level": "Medium",
+    "breakdown": {
+      "centrality": 8.2,
+      "alerts": 15.0,
+      "cross_network_bridge": 20,
+      "fir_mentions": 11.2
+    },
+    "alert_count": 1,
+    "fir_count": 3,
+    "bridges_networks": true
+  },
+  {
+    "name": "Manoj Tiwari",
+    "risk_score": 52,
+    "risk_level": "Medium",
+    "breakdown": {
+      "centrality": 22.2,
+      "alerts": 15.0,
+      "cross_network_bridge": 0,
+      "fir_mentions": 15
+    },
+    "alert_count": 1,
+    "fir_count": 5,
+    "bridges_networks": false
+  },
+  {
+    "name": "Suresh Yadav",
+    "risk_score": 45,
+    "risk_level": "Medium",
+    "breakdown": {
+      "centrality": 13.3,
+      "alerts": 0.0,
+      "cross_network_bridge": 20,
+      "fir_mentions": 11.2
+    },
+    "alert_count": 0,
+    "fir_count": 3,
+    "bridges_networks": true
+  },
+  {
+    "name": "Deepak Malhotra",
+    "risk_score": 39,
+    "risk_level": "Medium",
+    "breakdown": {
+      "centrality": 12.6,
+      "alerts": 15.0,
+      "cross_network_bridge": 0,
+      "fir_mentions": 11.2
+    },
+    "alert_count": 1,
+    "fir_count": 3,
+    "bridges_networks": false
+  },
+  {
+    "name": "Kavita Sharma",
+    "risk_score": 6,
+    "risk_level": "Low",
+    "breakdown": {
+      "centrality": 1.9,
+      "alerts": 0.0,
+      "cross_network_bridge": 0,
+      "fir_mentions": 3.8
+    },
+    "alert_count": 0,
+    "fir_count": 1,
+    "bridges_networks": false
+  }
+]

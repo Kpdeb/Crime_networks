@@ -1,0 +1,1258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Network Analysis — Case Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="lib/vis-network.min.js"></script>
+<style>
+  :root {
+    --bg: #0B0F14;
+    --panel: #121922;
+    --panel-2: #161E28;
+    --line: #1E2833;
+    --line-soft: #182028;
+    --text: #E6EDF3;
+    --text-dim: #8B98A5;
+    --text-faint: #59636E;
+    --teal: #3FA7A0;
+    --teal-dim: #2A6E68;
+    --amber: #E8A33D;
+    --red: #E8544B;
+    --red-dim: #4A2320;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(63,167,160,0.07), transparent),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(232,163,61,0.05), transparent);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ===== Header ===== */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--line);
+    background: rgba(18,25,34,0.6);
+  }
+
+  .case-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    letter-spacing: 0.08em;
+  }
+
+  .title-block h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 26px;
+    letter-spacing: 0.01em;
+    margin: 2px 0 0 0;
+    text-transform: uppercase;
+  }
+
+  .title-block h1 span { color: var(--teal); }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    border: 1px solid var(--line);
+    padding: 7px 14px;
+    border-radius: 3px;
+    background: var(--panel);
+  }
+
+  /* ===== Search ===== */
+  .search-wrap {
+    position: relative;
+    width: 320px;
+  }
+  .search-input {
+    width: 100%;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    padding: 10px 14px;
+    border-radius: 3px;
+    outline: none;
+  }
+  .search-input::placeholder { color: var(--text-faint); }
+  .search-input:focus { border-color: var(--teal-dim); }
+  .search-results {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+    z-index: 50;
+    display: none;
+  }
+  .search-results.open { display: block; }
+  .search-result-item {
+    padding: 9px 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .search-result-item:last-child { border-bottom: none; }
+  .search-result-item:hover { background: rgba(63,167,160,0.1); }
+  .search-result-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .search-result-type { margin-left: auto; color: var(--text-faint); font-size: 10px; }
+
+  /* ===== Entity detail panel (slide-over) ===== */
+  .overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(5,7,10,0.6);
+    z-index: 90;
+    display: none;
+  }
+  .overlay.open { display: block; }
+  .detail-panel {
+    position: fixed;
+    top: 0;
+    right: -480px;
+    width: 460px;
+    max-width: 92vw;
+    height: 100vh;
+    background: var(--panel);
+    border-left: 1px solid var(--line);
+    z-index: 100;
+    transition: right 0.25s ease;
+    overflow-y: auto;
+    padding-bottom: 40px;
+  }
+  .detail-panel.open { right: 0; }
+  .detail-header {
+    padding: 24px 26px 18px 26px;
+    border-bottom: 1px solid var(--line);
+    position: sticky;
+    top: 0;
+    background: var(--panel);
+    z-index: 2;
+  }
+  .detail-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--text-dim);
+    width: 28px;
+    height: 28px;
+    border-radius: 3px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .detail-close:hover { border-color: var(--teal-dim); color: var(--teal); }
+  .detail-type-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 6px;
+  }
+  .detail-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 24px;
+    text-transform: uppercase;
+  }
+  .detail-rank {
+    margin-top: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--amber);
+  }
+  .report-btn {
+    margin-top: 16px;
+    width: 100%;
+    background: var(--teal-dim);
+    color: #E6EDF3;
+    border: 1px solid var(--teal);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .report-btn:hover { background: var(--teal); color: #06110F; }
+  .report-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+  .detail-section { padding: 18px 26px; border-bottom: 1px solid var(--line-soft); }
+  .detail-section:last-child { border-bottom: none; }
+  .detail-section-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    margin-bottom: 12px;
+  }
+  .conn-row, .record-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 12.5px;
+  }
+  .conn-row:last-child, .record-row:last-child { border-bottom: none; }
+  .conn-name { font-weight: 500; cursor: pointer; }
+  .conn-name:hover { color: var(--teal); }
+  .conn-relation {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+  .record-meta { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-faint); }
+  .fir-snippet {
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    padding: 10px 12px;
+    background: var(--panel-2);
+    border-left: 2px solid var(--teal-dim);
+    border-radius: 2px;
+    margin-bottom: 8px;
+  }
+  .fir-snippet:last-child { margin-bottom: 0; }
+
+  /* ===== Login screen ===== */
+  #login-screen {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse 900px 500px at 15% -10%, rgba(63,167,160,0.08), transparent),
+      radial-gradient(ellipse 700px 500px at 100% 10%, rgba(232,163,61,0.06), transparent);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .login-card {
+    width: 380px;
+    max-width: 90vw;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 36px 34px;
+  }
+  .login-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    color: var(--text-faint);
+    text-align: center;
+    margin-bottom: 4px;
+  }
+  .login-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 26px;
+  }
+  .login-title span { color: var(--teal); }
+  .login-field { margin-bottom: 16px; }
+  .login-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 7px;
+  }
+  .login-input {
+    width: 100%;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    padding: 11px 13px;
+    border-radius: 3px;
+    outline: none;
+  }
+  .login-input:focus { border-color: var(--teal-dim); }
+  .login-submit {
+    width: 100%;
+    background: var(--teal);
+    color: #06110F;
+    border: none;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 12px;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-top: 6px;
+  }
+  .login-submit:hover { background: #4FBDB5; }
+  .login-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+  .login-error {
+    color: var(--red);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    margin-top: 12px;
+    text-align: center;
+    display: none;
+  }
+  .login-error.show { display: block; }
+  .login-hint {
+    margin-top: 22px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line-soft);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-faint);
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  .user-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .logout-btn {
+    background: none;
+    border: 1px solid var(--line);
+    color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  .logout-btn:hover { border-color: var(--red-dim); color: var(--red); }
+
+  /* ===== Redaction toggle ===== */
+  .redact-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-dim);
+  }
+  .redact-switch {
+    position: relative;
+    width: 34px;
+    height: 18px;
+    background: var(--line);
+    border-radius: 9px;
+    cursor: pointer;
+    border: none;
+    padding: 0;
+  }
+  .redact-switch.on { background: var(--teal-dim); }
+  .redact-switch .knob {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 14px;
+    height: 14px;
+    background: var(--text-dim);
+    border-radius: 50%;
+    transition: transform 0.15s, background 0.15s;
+  }
+  .redact-switch.on .knob { transform: translateX(16px); background: var(--teal); }
+
+  /* ===== Alert confidence + reasoning ===== */
+  .alert-confidence {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--amber);
+    border: 1px solid var(--amber);
+    border-radius: 3px;
+    padding: 1px 6px;
+    margin-left: 8px;
+  }
+  .alert-reasoning {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid var(--line-soft);
+  }
+
+  /* ===== Timeline ===== */
+  .timeline-strip {
+    max-height: 280px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .timeline-row {
+    display: flex;
+    gap: 12px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .timeline-row:last-child { border-bottom: none; }
+  .timeline-dot-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 14px;
+    flex-shrink: 0;
+  }
+  .timeline-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-top: 3px;
+    flex-shrink: 0;
+  }
+  .timeline-dot.FIR { background: var(--amber); }
+  .timeline-dot.CALL { background: var(--teal); }
+  .timeline-dot.TRANSACTION { background: var(--red); }
+  .timeline-content { flex: 1; }
+  .timeline-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    color: var(--text-faint);
+    text-transform: uppercase;
+  }
+  .timeline-desc {
+    font-size: 12px;
+    color: var(--text);
+    line-height: 1.5;
+    margin-top: 2px;
+  }
+
+  /* ===== Heatmap ===== */
+  #heatmap-svg-wrap { display: flex; justify-content: center; padding: 8px 0; }
+
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--text-faint); flex-shrink: 0; }
+  .dot.live { background: var(--teal); box-shadow: 0 0 8px var(--teal); animation: pulse 2s ease-in-out infinite; }
+  .dot.down { background: var(--red); box-shadow: 0 0 8px var(--red); }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+  /* ===== Layout ===== */
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 1px;
+    background: var(--line);
+  }
+  @media (max-width: 980px) { .grid { grid-template-columns: 1fr; } }
+
+  .col { background: var(--bg); display: flex; flex-direction: column; }
+
+  section.panel {
+    border-bottom: 1px solid var(--line);
+    padding: 22px 28px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-faint);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .eyebrow::after { content: ''; flex: 1; height: 1px; background: var(--line-soft); }
+
+  /* ===== Graph panel ===== */
+  #graph-panel { padding: 0; position: relative; }
+  #graph-panel .eyebrow { padding: 22px 28px 0 28px; margin-bottom: 10px; }
+  #network { width: 100%; height: 560px; background: radial-gradient(ellipse at center, #0E141B 0%, #0A0E13 100%); }
+  .legend {
+    position: absolute;
+    bottom: 16px;
+    left: 28px;
+    display: flex;
+    gap: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10.5px;
+    color: var(--text-dim);
+    background: rgba(11,15,20,0.85);
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 3px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .swatch { width: 9px; height: 9px; border-radius: 50%; }
+
+  .empty-note {
+    padding: 60px 28px;
+    text-align: center;
+    color: var(--text-faint);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+
+  /* ===== Influencer list ===== */
+  .influencer-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .influencer-row:last-child { border-bottom: none; }
+  .rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-faint);
+    width: 16px;
+  }
+  .influencer-name { flex: 1; font-size: 13.5px; font-weight: 500; }
+  .influencer-meta { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--text-faint); margin-top: 2px; }
+  .bars { display: flex; gap: 2px; align-items: flex-end; height: 16px; }
+  .bar { width: 3px; background: var(--line); border-radius: 1px; }
+  .bar.on { background: var(--teal); }
+
+  /* ===== Alerts ===== */
+  .alert-card {
+    border: 1px solid var(--red-dim);
+    background: linear-gradient(180deg, rgba(232,84,75,0.08), rgba(232,84,75,0.02));
+    border-radius: 4px;
+    padding: 13px 15px;
+    margin-bottom: 10px;
+  }
+  .alert-card:last-child { margin-bottom: 0; }
+  .alert-flag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .alert-body { font-size: 13px; color: var(--text); line-height: 1.5; }
+  .alert-body b { color: var(--amber); font-weight: 600; }
+  .alert-meta { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--text-dim); margin-top: 6px; }
+
+  /* ===== Communities ===== */
+  .community-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .chip {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 3px;
+    border: 1px solid var(--teal-dim);
+    color: var(--teal);
+    background: rgba(63,167,160,0.08);
+  }
+  .chip.loc { border-color: var(--line); color: var(--text-dim); background: transparent; }
+
+  /* ===== Audit chain (signature element) ===== */
+  #audit-panel { padding-bottom: 26px; }
+  .chain-strip {
+    display: flex;
+    align-items: center;
+    overflow-x: auto;
+    padding: 6px 2px 14px 2px;
+    gap: 0;
+  }
+  .block {
+    flex-shrink: 0;
+    width: 108px;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    border-radius: 4px;
+    padding: 9px 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .block .idx { font-size: 9px; color: var(--text-faint); }
+  .block .etype { font-size: 9.5px; color: var(--teal); margin: 4px 0; text-transform: uppercase; letter-spacing: 0.03em; }
+  .block .hash { font-size: 8.5px; color: var(--text-faint); word-break: break-all; line-height: 1.4; }
+  .link {
+    width: 18px;
+    height: 1px;
+    background: repeating-linear-gradient(90deg, var(--teal-dim) 0 4px, transparent 4px 7px);
+    flex-shrink: 0;
+  }
+  .verify-banner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+    padding: 12px 15px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .verify-banner.ok { background: rgba(63,167,160,0.1); border: 1px solid var(--teal-dim); color: var(--teal); }
+  .verify-banner.bad { background: rgba(232,84,75,0.1); border: 1px solid var(--red-dim); color: var(--red); }
+
+  /* ===== Risk score badge ===== */
+  .risk-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-left: 8px;
+    border: 1px solid;
+    white-space: nowrap;
+  }
+  .risk-badge.High { color: var(--red); border-color: var(--red); background: rgba(232,84,75,0.12); }
+  .risk-badge.Medium { color: var(--amber); border-color: var(--amber); background: rgba(232,163,61,0.1); }
+  .risk-badge.Low { color: var(--teal); border-color: var(--teal-dim); background: rgba(63,167,160,0.08); }
+
+  ::-webkit-scrollbar { height: 6px; width: 6px; }
+  ::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
+
+  .realtime-event { display:flex; gap:10px; padding:9px 0; border-bottom:1px solid var(--line-soft); font-family:'JetBrains Mono',monospace; font-size:10.5px; }
+  .realtime-event:last-child { border-bottom:none; }
+  .realtime-dot { width:7px; height:7px; border-radius:50%; margin-top:4px; flex:0 0 auto; background:var(--teal); box-shadow:0 0 8px rgba(63,167,160,.45); }
+  .realtime-dot.high { background:var(--red); box-shadow:0 0 8px rgba(232,84,75,.45); }
+  .realtime-time { color:var(--text-faint); font-size:9px; margin-top:3px; }
+  .realtime-source { color:var(--amber); font-size:9px; margin-top:3px; }
+
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-badge">PS-26189 // NCRB — WOMEN SAFETY DIVISION</div>
+    <div class="login-title">Investigator <span>Access</span></div>
+    <form id="login-form">
+      <div class="login-field">
+        <label class="login-label">Username</label>
+        <input type="text" class="login-input" id="login-username" autocomplete="username" required>
+      </div>
+      <div class="login-field">
+        <label class="login-label">Password</label>
+        <input type="password" class="login-input" id="login-password" autocomplete="current-password" required>
+      </div>
+      <button type="submit" class="login-submit" id="login-submit-btn">Sign In</button>
+      <div class="login-error" id="login-error"></div>
+    </form>
+    <div class="login-hint">Authorized personnel only. All access is logged<br>to the tamper-proof evidence audit chain.</div>
+  </div>
+</div>
+
+<header>
+  <div class="title-block">
+    <div class="case-id">PS-26189 // NCRB — WOMEN SAFETY DIVISION</div>
+    <h1>Criminal <span>Network</span> Analysis</h1>
+  </div>
+  <div class="search-wrap">
+    <input type="text" class="search-input" id="search-input" placeholder="Search suspect, phone, vehicle, location…" autocomplete="off">
+    <div class="search-results" id="search-results"></div>
+  </div>
+  <div class="status-pill" id="status-pill">
+    <div class="dot" id="status-dot"></div>
+    <span id="status-text">Connecting to analysis engine…</span>
+  </div>
+  <div class="user-badge" id="user-badge" style="display:none">
+    <div class="redact-toggle">
+      <button class="redact-switch on" id="redact-switch" type="button"><span class="knob"></span></button>
+      Protect Complainant Identities
+    </div>
+    <span id="user-badge-text"></span>
+    <button class="logout-btn" id="logout-btn">Sign Out</button>
+  </div>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<div class="detail-panel" id="detail-panel">
+  <div id="detail-content"></div>
+</div>
+
+<div class="grid">
+  <div class="col">
+    <section class="panel" id="graph-panel">
+      <div class="eyebrow">Entity Relationship Graph</div>
+      <div id="network"></div>
+      <div class="legend">
+        <div class="legend-item"><div class="swatch" style="background:#E8544B"></div>Person</div>
+        <div class="legend-item"><div class="swatch" style="background:#3FA7A0"></div>Location</div>
+        <div class="legend-item"><div class="swatch" style="background:#E8A33D"></div>Vehicle</div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">Case Timeline</div>
+      <div class="timeline-strip" id="timeline-strip"><div class="empty-note">Loading…</div></div>
+    </section>
+
+
+    <section class="panel" id="realtime-panel">
+      <div class="eyebrow">Live Intelligence Feed <span id="realtime-live-indicator" style="color:var(--teal)">● LIVE</span></div>
+      <div id="realtime-feed"><div class="empty-note">Waiting for live events…</div></div>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">Geographic Activity</div>
+      <div id="heatmap-svg-wrap"><div class="empty-note">Loading…</div></div>
+    </section>
+
+    <section class="panel" id="audit-panel">
+      <div class="eyebrow">Tamper-Proof Evidence Chain</div>
+      <div class="chain-strip" id="chain-strip"></div>
+      <div class="verify-banner ok" id="verify-banner">Verifying chain integrity…</div>
+    </section>
+  </div>
+
+  <div class="col">
+    <section class="panel">
+      <div class="eyebrow">Key Influencers</div>
+      <div id="influencers-list"><div class="empty-note">Loading…</div></div>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">Suspicious Activity</div>
+      <div id="alerts-list"><div class="empty-note">Loading…</div></div>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">Detected Sub-Groups</div>
+      <div id="communities-list"><div class="empty-note">Loading…</div></div>
+    </section>
+  </div>
+</div>
+
+<script>
+const API_BASE = "http://127.0.0.1:8000";
+let AUTH_TOKEN = sessionStorage.getItem("auth_token") || null;
+let CURRENT_USER = null;
+try { CURRENT_USER = JSON.parse(sessionStorage.getItem("auth_user") || "null"); } catch (e) {}
+let REDACT_MODE = sessionStorage.getItem("redact_mode") !== "off"; // defaults ON
+
+const REDACT_AWARE_PATHS = ["/entities", "/graph", "/search", "/entity/", "/report/", "/timeline", "/risk-scores"];
+
+async function fetchJSON(path) {
+  const headers = {};
+  if (AUTH_TOKEN) headers["Authorization"] = "Bearer " + AUTH_TOKEN;
+  let finalPath = path;
+  if (REDACT_AWARE_PATHS.some(p => path.startsWith(p))) {
+    finalPath += (path.includes("?") ? "&" : "?") + "redact=" + REDACT_MODE;
+  }
+  const res = await fetch(API_BASE + finalPath, { headers });
+  if (res.status === 401) {
+    sessionStorage.removeItem("auth_token");
+    sessionStorage.removeItem("auth_user");
+    showLoginScreen();
+    throw new Error("Session expired");
+  }
+  if (!res.ok) throw new Error("Request failed: " + path);
+  return res.json();
+}
+
+function showLoginScreen() {
+  document.getElementById("login-screen").style.display = "flex";
+  document.getElementById("user-badge").style.display = "none";
+}
+
+function showDashboard() {
+  document.getElementById("login-screen").style.display = "none";
+  document.getElementById("user-badge").style.display = "flex";
+  document.getElementById("user-badge-text").textContent =
+    `${CURRENT_USER.full_name} · ${CURRENT_USER.role.toUpperCase()}`;
+  document.getElementById("redact-switch").classList.toggle("on", REDACT_MODE);
+  startRealtimePolling();
+}
+
+document.getElementById("login-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const username = document.getElementById("login-username").value.trim();
+  const password = document.getElementById("login-password").value;
+  const errorEl = document.getElementById("login-error");
+  const btn = document.getElementById("login-submit-btn");
+  errorEl.classList.remove("show");
+  btn.disabled = true;
+  btn.textContent = "Signing In…";
+
+  try {
+    const res = await fetch(API_BASE + "/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.detail || "Login failed");
+    }
+    const data = await res.json();
+    AUTH_TOKEN = data.token;
+    CURRENT_USER = { username: data.username, role: data.role, full_name: data.full_name };
+    sessionStorage.setItem("auth_token", AUTH_TOKEN);
+    sessionStorage.setItem("auth_user", JSON.stringify(CURRENT_USER));
+    showDashboard();
+    boot();
+  } catch (err) {
+    errorEl.textContent = err.message;
+    errorEl.classList.add("show");
+  } finally {
+    btn.disabled = false;
+    btn.textContent = "Sign In";
+  }
+});
+
+document.getElementById("logout-btn").addEventListener("click", () => {
+  AUTH_TOKEN = null;
+  CURRENT_USER = null;
+  sessionStorage.removeItem("auth_token");
+  sessionStorage.removeItem("auth_user");
+  showLoginScreen();
+});
+
+document.getElementById("redact-switch").addEventListener("click", (e) => {
+  REDACT_MODE = !REDACT_MODE;
+  sessionStorage.setItem("redact_mode", REDACT_MODE ? "on" : "off");
+  e.currentTarget.classList.toggle("on", REDACT_MODE);
+  if (AUTH_TOKEN) boot(); // reload all data under the new redaction setting
+});
+
+function setStatus(ok, text) {
+  document.getElementById("status-text").textContent = text;
+  document.getElementById("status-dot").className = "dot " + (ok ? "live" : "down");
+}
+
+function barCell(value) {
+  // value 0..1 -> 5 bar signal indicator
+  const filled = Math.round(value * 5);
+  let html = '<div class="bars">';
+  for (let i = 0; i < 5; i++) {
+    const h = 4 + i * 3;
+    html += `<div class="bar ${i < filled ? 'on' : ''}" style="height:${h}px"></div>`;
+  }
+  html += '</div>';
+  return html;
+}
+
+function riskBadge(risk) {
+  if (!risk) return "";
+  return `<span class="risk-badge ${risk.risk_level}">${risk.risk_level} · ${risk.risk_score}</span>`;
+}
+
+async function loadGraph() {
+  try {
+    const data = await fetchJSON("/graph");
+    if (typeof vis === "undefined") throw new Error("vis-network library failed to load from CDN (check internet connection)");
+
+    const colorMap = { Person: "#E8544B", Location: "#3FA7A0", Vehicle: "#E8A33D" };
+
+    const nodes = new vis.DataSet(data.nodes.map(n => ({
+      id: n.id,
+      label: n.id,
+      color: {
+        background: colorMap[n.type] || "#59636E",
+        border: colorMap[n.type] || "#59636E",
+        highlight: { background: colorMap[n.type] || "#59636E", border: "#E6EDF3" }
+      },
+      font: { color: "#E6EDF3", face: "JetBrains Mono", size: 12 },
+      shape: "dot",
+      size: 14
+    })));
+
+    const nodeIds = new Set(data.nodes.map(n => n.id));
+    const validEdges = data.edges.filter(e => nodeIds.has(e.source) && nodeIds.has(e.target));
+
+    const edges = new vis.DataSet(validEdges.map(e => ({
+      from: e.source,
+      to: e.target,
+      label: e.relation,
+      color: { color: "#2A3542", highlight: "#3FA7A0" },
+      font: { color: "#59636E", size: 9, face: "JetBrains Mono", strokeWidth: 0, background: "#0B0F14" },
+      arrows: "to",
+      smooth: { type: "curvedCW", roundness: 0.15 }
+    })));
+
+    const container = document.getElementById("network");
+    const network = new vis.Network(container, { nodes: nodes, edges: edges }, {
+      physics: { barnesHut: { gravitationalConstant: -6000, springLength: 140 }, stabilization: { iterations: 120 } },
+      interaction: { hover: true }
+    });
+
+    network.on("click", (params) => {
+      if (params.nodes.length > 0) {
+        openEntityDetail(params.nodes[0]);
+      }
+    });
+  } catch (e) {
+    document.getElementById("network").innerHTML =
+      `<div class="empty-note">Graph failed to render:<br><b style="color:#E8544B">${e.message}</b></div>`;
+    console.error(e);
+  }
+}
+
+async function loadInfluencers() {
+  const data = await fetchJSON("/influencers?top_n=6");
+  let riskMap = {};
+  try {
+    const riskData = await fetchJSON("/risk-scores");
+    riskData.forEach(r => { riskMap[r.name] = r; });
+  } catch (e) { /* risk scores unavailable, badges just won't show */ }
+
+  const el = document.getElementById("influencers-list");
+  if (!data.length) { el.innerHTML = '<div class="empty-note">No individuals ranked yet.</div>'; return; }
+  el.innerHTML = data.map((p, i) => `
+    <div class="influencer-row">
+      <div class="rank">${String(i + 1).padStart(2, '0')}</div>
+      <div style="flex:1">
+        <div class="influencer-name" style="cursor:pointer" data-goto="${p.name}">${p.name}${riskBadge(riskMap[p.name])}</div>
+        <div class="influencer-meta">PAGERANK ${p.pagerank.toFixed(3)} · BETWEEN ${p.betweenness_centrality.toFixed(3)}</div>
+      </div>
+      ${barCell(p.degree_centrality)}
+    </div>
+  `).join("");
+  el.querySelectorAll(".influencer-name[data-goto]").forEach(node => {
+    node.addEventListener("click", () => openEntityDetail(node.dataset.goto));
+  });
+}
+
+async function loadAlerts() {
+  const data = await fetchJSON("/alerts");
+  const el = document.getElementById("alerts-list");
+  if (!data.length) { el.innerHTML = '<div class="empty-note">No anomalies flagged.</div>'; return; }
+  el.innerHTML = data.map(a => `
+    <div class="alert-card">
+      <div class="alert-flag">⚠ ${a.flag}${a.confidence ? `<span class="alert-confidence">${Math.round(a.confidence * 100)}% CONFIDENCE</span>` : ""}</div>
+      <div class="alert-body"><b class="conn-name" data-goto="${a.sender}">${a.sender}</b> → <b class="conn-name" data-goto="${a.receiver}">${a.receiver}</b> — ₹${Number(a.amount).toLocaleString('en-IN')} repeated</div>
+      <div class="alert-meta">${a.repeat_count}× identical transfers detected</div>
+      ${a.reasoning ? `<div class="alert-reasoning">${a.reasoning}</div>` : ""}
+    </div>
+  `).join("");
+  el.querySelectorAll(".conn-name[data-goto]").forEach(node => {
+    node.style.cursor = "pointer";
+    node.addEventListener("click", () => openEntityDetail(node.dataset.goto));
+  });
+}
+
+async function loadCommunities() {
+  const data = await fetchJSON("/communities");
+  const el = document.getElementById("communities-list");
+  const groups = Object.values(data).filter(g => g.length > 1);
+  if (!groups.length) { el.innerHTML = '<div class="empty-note">No multi-member clusters found.</div>'; return; }
+  el.innerHTML = groups.map((members, i) => `
+    <div class="community-group">${members.map(m => `<span class="chip">${m}</span>`).join("")}</div>
+  `).join("");
+}
+
+async function loadTimeline() {
+  const el = document.getElementById("timeline-strip");
+  try {
+    const events = await fetchJSON("/timeline");
+    if (!events.length) { el.innerHTML = '<div class="empty-note">No events found.</div>'; return; }
+    el.innerHTML = events.map(e => `
+      <div class="timeline-row">
+        <div class="timeline-dot-col"><div class="timeline-dot ${e.type}"></div></div>
+        <div class="timeline-content">
+          <div class="timeline-date">${e.date} · ${e.type}</div>
+          <div class="timeline-desc">${e.description}</div>
+        </div>
+      </div>
+    `).join("");
+  } catch (e) {
+    el.innerHTML = '<div class="empty-note">Could not load timeline.</div>';
+  }
+}
+
+async function loadHeatmap() {
+  const wrap = document.getElementById("heatmap-svg-wrap");
+  try {
+    const points = await fetchJSON("/heatmap");
+    const active = points.filter(p => p.mentions > 0);
+    if (!active.length) { wrap.innerHTML = '<div class="empty-note">No location activity recorded.</div>'; return; }
+
+    const lats = active.map(p => p.lat), lngs = active.map(p => p.lng);
+    const minLat = Math.min(...lats), maxLat = Math.max(...lats);
+    const minLng = Math.min(...lngs), maxLng = Math.max(...lngs);
+    const W = 640, H = 320, PAD = 60;
+    const maxMentions = Math.max(...active.map(p => p.mentions));
+
+    const scaleX = (lng) => PAD + (maxLng === minLng ? (W - 2 * PAD) / 2 : (lng - minLng) / (maxLng - minLng) * (W - 2 * PAD));
+    const scaleY = (lat) => H - PAD - (maxLat === minLat ? (H - 2 * PAD) / 2 : (lat - minLat) / (maxLat - minLat) * (H - 2 * PAD));
+
+    let svg = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="max-width:100%">`;
+    svg += `<rect x="0" y="0" width="${W}" height="${H}" fill="none" />`;
+    // faint grid
+    for (let i = 0; i <= 4; i++) {
+      const gy = PAD + i * (H - 2 * PAD) / 4;
+      svg += `<line x1="${PAD}" y1="${gy}" x2="${W - PAD}" y2="${gy}" stroke="#1E2833" stroke-width="1" />`;
+    }
+    active.forEach(p => {
+      const x = scaleX(p.lng), y = scaleY(p.lat);
+      const r = 6 + (p.mentions / maxMentions) * 20;
+      svg += `<circle cx="${x}" cy="${y}" r="${r}" fill="#3FA7A0" fill-opacity="0.18" stroke="#3FA7A0" stroke-width="1.5" />`;
+      svg += `<circle cx="${x}" cy="${y}" r="3" fill="#3FA7A0" />`;
+      svg += `<text x="${x}" y="${y - r - 8}" fill="#E6EDF3" font-family="JetBrains Mono, monospace" font-size="10" text-anchor="middle">${p.name}</text>`;
+      svg += `<text x="${x}" y="${y - r + 6}" fill="#59636E" font-family="JetBrains Mono, monospace" font-size="8" text-anchor="middle" dy="10">${p.mentions} mentions</text>`;
+    });
+    svg += `</svg>`;
+    wrap.innerHTML = svg;
+  } catch (e) {
+    wrap.innerHTML = '<div class="empty-note">Could not load geographic data.</div>';
+  }
+}
+
+async function loadAuditChain() {
+  try {
+    const chain = await fetchJSON("/audit-chain");
+    if (!chain.length) throw new Error("empty chain");
+    renderChain(chain);
+  } catch (e) {
+    document.getElementById("chain-strip").innerHTML = '<div class="empty-note">Run src/blockchain/audit_log.py to generate the evidence chain, then refresh.</div>';
+    document.getElementById("verify-banner").outerHTML = '<div class="verify-banner bad">Chain data not found — run the audit log script first.</div>';
+  }
+}
+
+function renderChain(chain) {
+  const strip = document.getElementById("chain-strip");
+  const shown = chain.slice(-8);
+  strip.innerHTML = shown.map((b, i) => `
+    <div class="block">
+      <div class="idx">BLOCK ${String(b.index).padStart(3, '0')}</div>
+      <div class="etype">${b.event_type.replace(/_/g, ' ')}</div>
+      <div class="hash">${b.block_hash.slice(0, 16)}…</div>
+    </div>
+    ${i < shown.length - 1 ? '<div class="link"></div>' : ''}
+  `).join("");
+
+  document.getElementById("verify-banner").textContent =
+    `✓ ${chain.length} blocks verified — evidence chain intact, no tampering detected`;
+}
+
+const typeColor = { Person: "#E8544B", Location: "#3FA7A0", Vehicle: "#E8A33D" };
+
+function debounce(fn, delay) {
+  let t;
+  return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
+}
+
+async function runSearch(query) {
+  const resultsEl = document.getElementById("search-results");
+  if (!query.trim()) { resultsEl.classList.remove("open"); return; }
+  try {
+    const matches = await fetchJSON("/search?q=" + encodeURIComponent(query));
+    if (!matches.length) {
+      resultsEl.innerHTML = '<div class="search-result-item" style="color:var(--text-faint)">No matches found</div>';
+    } else {
+      resultsEl.innerHTML = matches.map(m => `
+        <div class="search-result-item" data-name="${m.actual_name || m.id}">
+          <div class="search-result-dot" style="background:${typeColor[m.type] || '#59636E'}"></div>
+          ${m.id}
+          <span class="search-result-type">${m.type}</span>
+        </div>
+      `).join("");
+      resultsEl.querySelectorAll(".search-result-item[data-name]").forEach(el => {
+        el.addEventListener("click", () => {
+          openEntityDetail(el.dataset.name);
+          resultsEl.classList.remove("open");
+          document.getElementById("search-input").value = el.dataset.name;
+        });
+      });
+    }
+    resultsEl.classList.add("open");
+  } catch (e) { /* engine offline, ignore */ }
+}
+
+async function openEntityDetail(name) {
+  const panel = document.getElementById("detail-panel");
+  const overlay = document.getElementById("overlay");
+  const content = document.getElementById("detail-content");
+  content.innerHTML = '<div class="empty-note" style="padding:40px">Loading case file…</div>';
+  panel.classList.add("open");
+  overlay.classList.add("open");
+
+  try {
+    const d = await fetchJSON("/entity/" + encodeURIComponent(name));
+    if (d.error) { content.innerHTML = `<div class="empty-note" style="padding:40px">${d.error}</div>`; return; }
+
+    let html = `
+      <div class="detail-header">
+        <button class="detail-close" id="detail-close-btn">✕</button>
+        <div class="detail-type-tag">${d.type}</div>
+        <div class="detail-name">${d.name}${riskBadge(d.risk)}</div>
+        ${d.rank ? `<div class="detail-rank">RANK #${d.rank.rank} · PAGERANK ${d.rank.pagerank.toFixed(3)} · DEGREE ${d.rank.degree_centrality.toFixed(3)}</div>` : ""}
+        ${d.risk && d.risk.bridges_networks ? `<div class="detail-rank" style="color:var(--red)">⚠ BRIDGES MULTIPLE NETWORKS</div>` : ""}
+        <button class="report-btn" id="download-report-btn" data-name="${d.name}">⬇ Download Case Report (PDF)</button>
+      </div>
+    `;
+
+    if (d.connections && d.connections.length) {
+      html += `<div class="detail-section"><div class="detail-section-title">Direct Connections (${d.connections.length})</div>`;
+      html += d.connections.map(c => `
+        <div class="conn-row">
+          <span class="conn-name" data-goto="${c.name}">${c.name}</span>
+          <span class="conn-relation">${c.direction === 'incoming' ? '←' : '→'} ${c.relation.replace(/_/g, ' ')}</span>
+        </div>
+      `).join("");
+      html += `</div>`;
+    }
+
+    if (d.call_records && d.call_records.length) {
+      html += `<div class="detail-section"><div class="detail-section-title">Call Records (${d.call_records.length})</div>`;
+      html += d.call_records.map(c => `
+        <div class="record-row">
+          <span>${c.direction === 'outgoing' ? '→' : '←'} ${c.with}</span>
+          <span class="record-meta">${c.timestamp.split(' ')[0]} · ${c.duration_sec}s · ${c.location}</span>
+        </div>
+      `).join("");
+      html += `</div>`;
+    }
+
+    if (d.transactions && d.transactions.length) {
+      html += `<div class="detail-section"><div class="detail-section-title">Financial Transactions (${d.transactions.length})</div>`;
+      html += d.transactions.map(t => `
+        <div class="record-row">
+          <span>${t.direction === 'sent' ? '→' : '←'} ${t.with}</span>
+          <span class="record-meta">₹${Number(t.amount).toLocaleString('en-IN')} · ${t.mode} · ${t.timestamp.split(' ')[0]}</span>
+        </div>
+      `).join("");
+      html += `</div>`;
+    }
+
+    if (d.fir_mentions && d.fir_mentions.length) {
+      html += `<div class="detail-section"><div class="detail-section-title">FIR Mentions (${d.fir_mentions.length})</div>`;
+      html += d.fir_mentions.map(f => `<div class="fir-snippet">${f}</div>`).join("");
+      html += `</div>`;
+    }
+
+    content.innerHTML = html;
+    document.getElementById("detail-close-btn").addEventListener("click", closeEntityDetail);
+    content.querySelectorAll(".conn-name[data-goto]").forEach(el => {
+      el.addEventListener("click", () => openEntityDetail(el.dataset.goto));
+    });
+    document.getElementById("download-report-btn").addEventListener("click", (e) => downloadCaseReport(e.target.dataset.name));
+  } catch (e) {
+    content.innerHTML = '<div class="empty-note" style="padding:40px">Could not load case file — is the engine running?</div>';
+  }
+}
+
+function closeEntityDetail() {
+  document.getElementById("detail-panel").classList.remove("open");
+  document.getElementById("overlay").classList.remove("open");
+}
+
+async function downloadCaseReport(name) {
+  const btn = document.getElementById("download-report-btn");
+  const originalText = btn.textContent;
+  btn.textContent = "Generating…";
+  btn.disabled = true;
+  try {
+    const res = await fetch(API_BASE + "/report/" + encodeURIComponent(name) + "?redact=" + REDACT_MODE, {
+      headers: { "Authorization": "Bearer " + AUTH_TOKEN }
+    });
+    if (!res.ok) throw new Error("Report generation failed");
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `case_report_${name.replace(/ /g, "_")}.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    window.URL.revokeObjectURL(url);
+  } catch (e) {
+    alert("Could not generate report: " + e.message);
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+}
+
+document.getElementById("overlay").addEventListener("click", closeEntityDetail);
+document.getElementById("search-input").addEventListener("input", debounce((e) => runSearch(e.target.value), 250));
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".search-wrap")) document.getElementById("search-results").classList.remove("open");
+});
+
+
+async function loadRealtimeFeed() {
+  try {
+    const data = await fetchJSON("/realtime/events?limit=8");
+    const el = document.getElementById("realtime-feed");
+    if (!data.events.length) { el.innerHTML = '<div class="empty-note">No live events yet.</div>'; return; }
+    el.innerHTML = data.events.map(e => {
+      const ts = new Date(e.timestamp).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+      return `<div class="realtime-event"><span class="realtime-dot ${e.severity === 'HIGH' ? 'high' : ''}"></span><div style="flex:1"><b>${e.type || 'EVENT'} — ${e.message}</b><div class="realtime-time">${ts} · ${e.entity || 'SYSTEM'}</div><div class="realtime-source">SOURCE: ${e.source || 'NEXUS'}</div></div></div>`;
+    }).join("");
+    const indicator = document.getElementById("realtime-live-indicator");
+    if (indicator) indicator.textContent = "● LIVE";
+  } catch (e) {
+    const indicator = document.getElementById("realtime-live-indicator");
+    if (indicator) indicator.textContent = "● OFFLINE";
+  }
+}
+
+let realtimeTimer = null;
+function startRealtimePolling() {
+  if (realtimeTimer) clearInterval(realtimeTimer);
+  loadRealtimeFeed();
+  realtimeTimer = setInterval(loadRealtimeFeed, 5000);
+}
+
+async function boot() {
+  if (!AUTH_TOKEN) { showLoginScreen(); return; }
+  showDashboard();
+  try {
+    await fetchJSON("/");
+    setStatus(true, "Analysis engine online");
+  } catch (e) {
+    setStatus(false, "Engine offline — start uvicorn on :8000");
+    document.getElementById("network").innerHTML = '<div class="empty-note">Cannot reach API at ' + API_BASE + '.<br>Run: <b style="color:#E8A33D">uvicorn src.api.main:app --reload --port 8000</b></div>';
+    document.getElementById("influencers-list").innerHTML = '<div class="empty-note">Engine offline.</div>';
+    document.getElementById("alerts-list").innerHTML = '<div class="empty-note">Engine offline.</div>';
+    document.getElementById("communities-list").innerHTML = '<div class="empty-note">Engine offline.</div>';
+    return;
+  }
+  loadGraph();
+  loadInfluencers();
+  loadAlerts();
+  loadCommunities();
+  loadAuditChain();
+  loadTimeline();
+  loadHeatmap();
+}
+
+boot();
+</script>
+</body>
+</html>

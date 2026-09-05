@@ -1,0 +1,26 @@
+[
+  {
+    "timestamp": "2026-09-05T09:05:00+00:00",
+    "type": "GRAPH_UPDATE",
+    "entity": "P-1042",
+    "message": "New relationship added to investigation graph",
+    "source": "CDR-118",
+    "severity": "INFO"
+  },
+  {
+    "timestamp": "2026-09-05T09:09:00+00:00",
+    "type": "ANOMALY",
+    "entity": "A-7721",
+    "message": "Unusual transaction sequence detected",
+    "source": "TX-204",
+    "severity": "HIGH"
+  },
+  {
+    "timestamp": "2026-09-05T09:14:00+00:00",
+    "type": "EVIDENCE",
+    "entity": "EV-2026-118",
+    "message": "Evidence integrity re-verified successfully",
+    "source": "SHA-256",
+    "severity": "INFO"
+  }
+]
